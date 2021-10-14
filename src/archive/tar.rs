@@ -1,11 +1,12 @@
 //! Contains Tar-specific building and unpacking functions
 
 use std::{
-    env, fs,
+    env,
     io::prelude::*,
     path::{Path, PathBuf},
 };
 
+use fs_err as fs;
 use tar;
 use walkdir::WalkDir;
 
@@ -58,7 +59,7 @@ where
                 builder.append_dir(path, path)?;
             } else {
                 let mut file = fs::File::open(path)?;
-                builder.append_file(path, &mut file)?;
+                builder.append_file(path, &mut file.file_mut())?;
             }
         }
         env::set_current_dir(previous_location)?;
