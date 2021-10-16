@@ -2,7 +2,6 @@
 
 use std::{
     env,
-    fs::Permissions,
     io::{self, prelude::*},
     path::{Path, PathBuf},
 };
@@ -124,6 +123,7 @@ fn check_for_comments(file: &ZipFile) {
 
 #[cfg(unix)]
 fn __unix_set_permissions(file_path: &Path, file: &ZipFile) -> crate::Result<()> {
+    use std::fs::Permissions;
     use std::os::unix::fs::PermissionsExt;
 
     if let Some(mode) = file.unix_mode() {
